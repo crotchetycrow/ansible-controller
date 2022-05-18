@@ -12,8 +12,6 @@
       copy:
         src: /home/vagrant/default1
         dest: /etc/nginx/sites-available/default
-        owner: web
-        group: web
     - name: restart nginx
       shell: |
         sudo systemctl restart nginx
