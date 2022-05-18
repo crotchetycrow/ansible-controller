@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+
+  vars:
+    region: eu-west-1
+    image: ami-0ee97b6ee0f4deecc
+    id: "eng110_jack_web_app_3"
+    sec_group: "0ccb91f35bc4b1143"
+
+  tasks:
+    - name: Facts
+      block:
+        - name: Get instances facts
+          ec2_instance_info:
+            aws_access_key: "{{ec2_access_key}}"
+            aws_secret_key: "{{ec2_secret_key}}"
+            region: "{{ region }}"
+          register: result
+
+    - name: Provisioning EC2 instances
+      block:
+        - name: Create security group
+          ec2_group:
+            name: "{{ sec_group }}"
+            description: "eng110_jack_ansible_app"
+            # vpc_id: 12345
+            region: "{{ region }}"
+            aws_access_key: "{{ec2_access_key}}"
+            aws_secret_key: "{{ec2_secret_key}}"
+          register: result_sec_group
+
+        - name: Provision instance(s)
+          ec2:
+            aws_access_key: "{{ec2_access_key}}"
+            aws_secret_key: "{{ec2_secret_key}}"
+            id: "{{ id }}"
+            group_id: "sg-{{ sec_group }}"
+            image: "{{ image }}"
+            instance_type: t2.micro
+            region: "{{ region }}"
+            wait: true
+            count: 1
+            # exact_count: 2
+            # count_tag:
+            #   Name: App
+            instance_tags:
+              Name: eng110_jack_ansible_app_3
+
+      tags: ["never", "create_ec2"]
