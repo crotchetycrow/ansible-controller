@@ -57,8 +57,8 @@ Password = 'vagrant'
 ## Setting up a playbook for nginx
 
 ```
-# creating a playbook to confiure Nginx web server in web machine
-# YAML YML file starts with three dashs ---
+# creating a playbook to configure Nginx web server in web machine
+# YAML YML file starts with three dashes ---
 ---
 
 # Where do we want to install nginx
