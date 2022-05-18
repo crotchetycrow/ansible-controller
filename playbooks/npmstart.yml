@@ -1,0 +1,11 @@
+---
+- hosts: web
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: change dir
+      shell: |
+        cd app/app/
+        sudo apt-get update -y
+        npm install
+        npm start
