@@ -1,0 +1,19 @@
+---
+- hosts: web
+  gather_facts: yes
+  become: true
+  become_method: sudo
+  tasks:
+    - name: remove default file
+      file:
+        path: /home/vagrant/etc/nginx/sites-available/default
+        state: absent
+    - name: move new default file
+      copy:
+        src: /home/vagrant/default1
+        dest: /etc/nginx/sites-available/default
+        owner: web
+        group: web
+    - name: restart nginx
+      shell: |
+        sudo systemctl restart nginx
