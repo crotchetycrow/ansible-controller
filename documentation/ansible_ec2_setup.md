@@ -86,7 +86,9 @@ Information needed to create an EC2 instance through Ansible:
       tags: ["never", "create_ec2"]
 ```
 
-`sudo ansible-playbook playbook.yml --ask-vault-pass`
+`sudo ansible-playbook playbook.yml --ask-vault-pass` - To run and check functionality
+
+`ansible-playbook playbook.yml --ask-vault-pass --tags create_ec2` - To execute task
 
 ## Playbook for EC2 setup with NGINX, nodejs, npm
 
@@ -124,13 +126,15 @@ Information needed to create an EC2 instance through Ansible:
 
 ```
 
-`sudo ansible-playbook playbook.yml --ask-vault-pass --tags create_ec2`
+`sudo ansible-playbook playbook.yml --ask-vault-pass`
 
 Once app EC2 has been created, create a playbook to spin up a db instance. This is a similar format but you will need a different AMI id and Security Group.
 
 Then, install MongoDB.
 
 ## Playbook for EC2 db setup
+
+`sudo nano playbook.yml`
 
 ```
 ---
@@ -156,9 +160,13 @@ Then, install MongoDB.
         sudo systemctl enable mongod
 ```
 
+`sudo ansible-playbook playbook.yml --ask-vault-pass`
+
 Once MongoDB is installed, you need to set the DB_HOST environment variable on the EC2 app instance.
 
 ## Playbook for setting the DB_HOST environment variable
+
+`sudo nano playbook.yml`
 
 ```
 ---
@@ -172,7 +180,11 @@ Once MongoDB is installed, you need to set the DB_HOST environment variable on t
         export DB_HOST=mongodb://db-ip:27017/posts
 ```
 
+`sudo ansible-playbook playbook.yml --ask-vault-pass`
+
 ## Playbook for NPM install and start
+
+`sudo nano playbook.yml`
 
 ```
 ---
@@ -187,3 +199,5 @@ Once MongoDB is installed, you need to set the DB_HOST environment variable on t
         npm install
         npm start
 ```
+
+`sudo ansible-playbook playbook.yml --ask-vault-pass`
