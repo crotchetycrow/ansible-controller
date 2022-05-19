@@ -5,7 +5,7 @@
   tasks:
     - name: change dir
       shell: |
-        cd app/app/
+        cd ./app/app/
         sudo apt-get update -y
         npm install
         npm start

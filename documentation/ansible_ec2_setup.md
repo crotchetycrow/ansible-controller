@@ -125,3 +125,65 @@ Information needed to create an EC2 instance through Ansible:
 ```
 
 `sudo ansible-playbook playbook.yml --ask-vault-pass --tags create_ec2`
+
+Once app EC2 has been created, create a playbook to spin up a db instance. This is a similar format but you will need a different AMI id and Security Group.
+
+Then, install MongoDB.
+
+## Playbook for EC2 db setup
+
+```
+---
+- hosts: db
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: apt-key for mongodb
+      apt_key:
+        url: hkp://keyserver.ubuntu.com:80
+        id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+        state: present
+    - name: add mongodb version
+      apt_repository:
+        repo: deb [arch=amd64] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse
+        update_cache: yes
+    - name: install mongodb
+      apt: pkg=mongodb-org state=present
+    - name: start and enable mongod
+      shell: |
+        sudo systemctl start mongod
+        sudo systemctl enable mongod
+```
+
+Once MongoDB is installed, you need to set the DB_HOST environment variable on the EC2 app instance.
+
+## Playbook for setting the DB_HOST environment variable
+
+```
+---
+- hosts: aws
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: set environment variable
+      shell: |
+        export DB_HOST=mongodb://db-ip:27017/posts
+```
+
+## Playbook for NPM install and start
+
+```
+---
+- hosts: web
+  gather_facts: yes
+  become: yes
+  tasks:
+    - name: change dir
+      shell: |
+        cd ./app/app/
+        sudo apt-get update -y
+        npm install
+        npm start
+```

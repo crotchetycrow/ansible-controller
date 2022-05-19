@@ -23,6 +23,6 @@
         state: present
     - name: start npm
       shell: |
-        cd app/app/
+        cd ./app/app/
         npm install
         npm start
