@@ -1,14 +1,39 @@
+# Creating an EC2 instance using Ansible playbooks
+
+## Create public key for private key
+
+`cd ~/.ssh`
+
+`sudo key-gen -y` (Path to private key)
+
+Copy generated key
+
+`sudo nano file.pub` - Paste generated key (file name must match private key)
+
+## Playbook for creating an EC2 instance
+
+`sudo nano playbook.yml`
+
+Information needed to create an EC2 instance through Ansible:
+
+- AMI ID
+- Security Group ID
+- Key name
+- EC2 name
+- EC2 tag name
+
+```
 ---
 - hosts: localhost
   connection: local
   gather_facts: yes
 
   vars:
-    key_name: eng119
+    key_name: insert key_name
     region: eu-west-1
-    image: ami-0ee97b6ee0f4deecc
-    id: "eng110_jack_web_app_6"
-    sec_group: "0ccb91f35bc4b1143"
+    image: insert AMI here
+    id: "insert name here"
+    sec_group: "insert security group here"
 
   tasks:
     - name: Facts
@@ -56,6 +81,47 @@
             # count_tag:
             #   Name: App
             instance_tags:
-              Name: eng110_jack_ansible_app_6
+              Name: insert tag name here
 
       tags: ["never", "create_ec2"]
+```
+
+`sudo ansible-playbook playbook.yml --ask-vault-pass`
+
+## Playbook for EC2 setup with NGINX, nodejs, npm
+
+`sudo nano playbook.yml`
+
+```
+---
+- hosts: aws
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: Install nginx
+      apt: pkg=nginx state=present
+    - name: Install software-properties-common
+      apt: pkg=software-properties-common state=present
+    - name: add nodejs apt key
+      apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+    - name: install nodejs
+      apt_repository:
+        repo: deb https://deb.nodesource.com/node_13.x bionic main
+        update_cache: yes
+    - name: install nodejs
+      apt:
+        update_cache: yes
+        name: nodejs
+        state: present
+    - name: start npm
+      shell: |
+        cd app/app/
+        npm install
+        npm start
+
+```
+
+`sudo ansible-playbook playbook.yml --ask-vault-pass --tags create_ec2`
