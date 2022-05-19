@@ -1,0 +1,21 @@
+---
+- hosts: db
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: apt-key for mongodb
+      apt_key:
+        url: hkp://keyserver.ubuntu.com:80
+        id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+        state: present
+    - name: add mongodb version
+      apt_repository:
+        repo: deb [arch=amd64] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse
+        update_cache: yes
+    - name: install mongodb
+      apt: pkg=mongodb-org state=present
+    - name: start and enable mongod
+      shell: |
+        sudo systemctl start mongod
+        sudo systemctl enable mongod

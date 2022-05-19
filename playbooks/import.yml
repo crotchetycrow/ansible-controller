@@ -1,0 +1,25 @@
+---
+- hosts: aws
+  gather_facts: yes
+  become: true
+
+- name: import ec2 app create
+  import_playbook: ec2create.yml
+
+- name: import ec2 db create
+  import_playbook: ec2createdb.yml
+
+- name: import db setup
+  import_playbook: ec2dbsetup.yml
+
+- name: import nginx
+  import_playbook: nginx.yml
+
+- name: import node
+  import_playbook: node.yml
+
+- name: import mongodb
+  import_playbook: setenvvar.yml
+
+- name: import start
+  import_playbook: npmstart.yml
