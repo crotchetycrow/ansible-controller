@@ -14,10 +14,15 @@
 ## blue.example.com
 ## 192.168.100.1
 ## 192.168.100.10
-[web]
-192.168.56.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+[local]
+
+localhost ansible_python_interpreter=/usr/bin/python3
+
+[aws]
+ec2_app ansible_host=54.246.9.122 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/eng119.pem
+
 [db]
-192.168.56.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+ec2_db ansible_host=52.208.188.181 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/eng119.pem
 # Ex 2: A collection of hosts belonging to the 'webservers' group
 
 ## [webservers]
