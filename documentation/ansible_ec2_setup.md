@@ -4,7 +4,7 @@
 
 `cd ~/.ssh`
 
-`sudo key-gen -y` (Path to private key)
+`sudo ssh-keygen -y` (Path to private key)
 
 Copy generated key
 
