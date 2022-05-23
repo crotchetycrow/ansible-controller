@@ -150,6 +150,24 @@ Orchestration is about automating processes, and configuration management is aut
   - Standardizing workflows and products
     - Standardizing processes and products across the spectrum means your processes and products are consistent and reliable
 
-## What is pull & push configuration management - What tools are available?
+## What is pull based configuration management?
 
-## Mutability vs Immutability
+In this type of configuration management tool, the nodes pull the configuration information from the server (hence, the name).
+
+A small software (called agent or client) is installed on every node. This agent/client will:
+
+- At regular intervals, get the configuration from the server
+- Compare the configuration received from the server with the current configuration of the node
+- If there is any mis-match, take the steps required to match the configuration of the node with the configuration received from the server.
+
+This means that, its always the agent/client that initiates communication, not the main server.
+
+Chef & Puppet are good examples of such configuration management tools.
+
+## What is push based configuration management?
+
+In this type of configuration management tool, the main server (where the configuration data is stored) pushes the configuration to the node (hence, the name). So, it is the main server that initiates communication, not the nodes. Which means that an agent/client may or may not be installed on each node.
+
+Ansible is an example of a push based configuration management tool that doesn’t need an agent to be installed on the nodes. SaltStack is an example of a push based configuration management tool that needs an agent (minion) to be installed on the nodes. In both cases, its the main server that starts the communication and sends the configuration data to the nodes without the nodes asking for it.
+
+![](../img/infrastructure-as-code.png)
