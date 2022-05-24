@@ -1,5 +1,10 @@
 # Ansible
 
+- [Setting up Ansible](https://github.com/crotchetycrow/ansible-controller/blob/main/documentation/setup_ansible.md)
+- [Ansible vault setup](https://github.com/crotchetycrow/ansible-controller/blob/main/documentation/ansible_vault.md)
+- [Setting up an EC2 with Ansible](https://github.com/crotchetycrow/ansible-controller/blob/main/documentation/ansible_ec2_setup.md)
+- [Infrastructure as Code](https://github.com/crotchetycrow/ansible-controller/blob/main/documentation/iac.md)
+
 ## What is Ansible?
 
 Ansible is an open sourceIT automation tool that automates provisioning, configuration management, application deployment, orchestration, and many other manual IT processes. Unlike more simplistic management tools, Ansible users (like system administrators, developers and architects) can use Ansible automation to install software, automate daily tasks, provision infrastructure, improve security and compliance, patch systems, and share automation across the entire organization.
